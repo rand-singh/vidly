@@ -12,7 +12,7 @@ export function paginate(items, pageNumber, pageSize) {
 
   // dont need lodash, use slice method from es6, replace the lodash
   // statement in the return below with const slide
-  const slice = items.slice(startIndex, startIndex + pageSize);
+  // const slice = items.slice(startIndex, startIndex + pageSize);
 
   // first we need to convert items array into a lodash wrapper so we chain lodash methods
   // this makes our code more fluent. Then convert back to normal array using the value() method
