@@ -8,7 +8,7 @@ export function paginate(items, pageNumber, pageSize) {
   // first calculate the starting index of the items for the given page
   const startIndex = (pageNumber - 1) * pageSize;
 
-  console.log("startIndex", startIndex);
+  // console.log("startIndex", startIndex);
 
   // dont need lodash, use slice method from es6, replace the lodash
   // statement in the return below with const slide

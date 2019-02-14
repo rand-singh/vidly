@@ -8,20 +8,22 @@ import { paginate } from "../utils/paginate";
 
 class Movies extends Component {
   state = {
-    movies: [], // define empty arrays for movies and genres to prevent undefined warning
-    genres: [], //
+    movies: [], // define empty arrays for movies and genres
+    genres: [], // to prevent undefined warning
     currentPage: 1,
     pageSize: 4
   };
 
   // this method is called when a instance of this
-  // component is rendered in the DOM
+  // component is rendered in the DOM, generally
+  // this is where ajax request will be made
   componentDidMount() {
     this.setState({ movies: getMovies(), genres: getGenres() });
   }
 
   handleDelete = movie => {
-    const movies = this.state.movies.filter(m => m._id !== movie._id); // use the filter method to remove a film from the state object
+    // use the filter method to remove a film from the state object
+    const movies = this.state.movies.filter(m => m._id !== movie._id);
     this.setState({ movies });
   };
 
@@ -39,12 +41,18 @@ class Movies extends Component {
   };
 
   handleGenreSelect = genre => {
-    console.log("genre", genre);
+    console.log(genre);
+    this.setState({ selectedGenre: genre });
   };
 
   render() {
     const { length: count } = this.state.movies;
-    const { pageSize, currentPage, movies: allMovies } = this.state;
+    const {
+      pageSize,
+      currentPage,
+      selectedGenre,
+      movies: allMovies
+    } = this.state;
 
     if (count === 0)
       return (
@@ -53,7 +61,10 @@ class Movies extends Component {
         </div>
       );
 
-    const movies = paginate(allMovies, currentPage, pageSize);
+    const filtered = selectedGenre
+      ? allMovies.filter(m => m.genre._id === selectedGenre._id)
+      : allMovies;
+    const movies = paginate(filtered, currentPage, pageSize);
 
     return (
       <div className="row">
@@ -62,12 +73,13 @@ class Movies extends Component {
             items={this.state.genres}
             textProperty="name"
             valueProperty="_id"
-            onItemselect={this.handleGenreSelect}
+            selectedItem={this.state.selectedGenre}
+            onItemSelect={this.handleGenreSelect}
           />
         </div>
         <div className="col">
           <div className="alert alert-info" role="alert">
-            Showing {count} movies in the database
+            Showing {filtered.length} movies in the database
           </div>
           <table className="table">
             <thead>
@@ -106,7 +118,7 @@ class Movies extends Component {
             </tbody>
           </table>
           <Pagination
-            itemsCount={count}
+            itemsCount={filtered.length}
             pageSize={pageSize}
             currentPage={currentPage}
             onPageChange={this.handlePageChange}
