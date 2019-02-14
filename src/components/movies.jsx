@@ -18,7 +18,8 @@ class Movies extends Component {
   // component is rendered in the DOM, generally
   // this is where ajax request will be made
   componentDidMount() {
-    this.setState({ movies: getMovies(), genres: getGenres() });
+    const genres = [{ name: "All Genres" }, ...getGenres()];
+    this.setState({ movies: getMovies(), genres });
   }
 
   handleDelete = movie => {
@@ -42,7 +43,7 @@ class Movies extends Component {
 
   handleGenreSelect = genre => {
     console.log(genre);
-    this.setState({ selectedGenre: genre });
+    this.setState({ selectedGenre: genre, currentPage: 1 });
   };
 
   render() {
@@ -61,9 +62,10 @@ class Movies extends Component {
         </div>
       );
 
-    const filtered = selectedGenre
-      ? allMovies.filter(m => m.genre._id === selectedGenre._id)
-      : allMovies;
+    const filtered =
+      selectedGenre && selectedGenre._id
+        ? allMovies.filter(m => m.genre._id === selectedGenre._id)
+        : allMovies;
     const movies = paginate(filtered, currentPage, pageSize);
 
     return (
