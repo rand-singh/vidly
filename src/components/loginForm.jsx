@@ -20,15 +20,20 @@ class LoginForm extends Component {
 
   validate = () => {
     const options = { abortEarly: false };
-
     const { error } = Joi.validate(this.state.account, this.schema, options);
-
     if (!error) return null;
 
     const errors = {};
     // mapping an array into an object. this can also be achieved using the map method, or reduce
     for (let item of error.details) errors[item.path[0]] = item.message;
     return errors;
+  };
+
+  validateProperty = ({ name, value }) => {
+    const obj = { [name]: value }; // this is a computed property in ES6
+    const schema = { [name]: this.schema[name] };
+    const { error } = Joi.validate(obj, schema);
+    return error ? error.details[0].message : null;
   };
 
   handleSubmit = e => {
@@ -39,14 +44,6 @@ class LoginForm extends Component {
     if (errors) return;
 
     // call the server
-  };
-
-  validateProperty = ({ name, value }) => {
-    const obj = { [name]: value }; // this is a computed property in ES6
-    const schema = { [name]: this.schema[name] };
-    const { error } = Joi.validate(obj, schema);
-
-    return error ? error.details[0].message : null;
   };
 
   handleChange = ({ currentTarget: input }) => {
