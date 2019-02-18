@@ -5,10 +5,6 @@ class LoginForm extends Component {
     account: { username: "", password: "" }
   };
 
-  componentDidMount() {
-    // this.username.current.focus();
-  }
-
   handleSubmit = e => {
     e.preventDefault();
 
