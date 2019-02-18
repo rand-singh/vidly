@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Joi from "joi-browser";
 import Input from "./common/input";
+import { isRejected } from "q";
 
 class LoginForm extends Component {
   state = {
@@ -42,15 +43,11 @@ class LoginForm extends Component {
   };
 
   validateProperty = ({ name, value }) => {
-    if (name === "username") {
-      if (value.trim() === "") return "Username is required";
-      //... more rules here
-    }
+    const obj = { [name]: value }; // this is a computed property in ES6
+    const schema = { [name]: this.schema[name] };
+    const { error } = Joi.validate(obj, schema);
 
-    if (name === "password") {
-      if (value.trim() === "") return "Password is required";
-      //... more rules here
-    }
+    return error ? error.details[0].message : null;
   };
 
   handleChange = ({ currentTarget: input }) => {
