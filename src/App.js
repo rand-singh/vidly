@@ -6,7 +6,7 @@ import Customers from "./components/customers";
 import Rentals from "./components/rentals";
 import NotFound from "./components/notFound";
 import NavBar from "./components/navBar";
-import LoginForm from "./components/login";
+import LoginForm from "./components/loginForm";
 import "./App.css";
 
 class App extends Component {
