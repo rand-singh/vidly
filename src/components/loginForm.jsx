@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Joi from "joi-browser";
 import Input from "./common/input";
-import { isRejected } from "q";
 
 class LoginForm extends Component {
   state = {
@@ -85,7 +84,9 @@ class LoginForm extends Component {
             error={errors.password}
           />
 
-          <button className="btn btn-primary">Login</button>
+          <button disabled={this.validate()} className="btn btn-primary">
+            Login
+          </button>
         </form>
       </div>
     );
