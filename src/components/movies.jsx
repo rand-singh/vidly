@@ -5,7 +5,7 @@ import SearchBox from "./searchBox";
 import Pagination from "./common/pagination";
 import ListGroup from "./common/listgroup";
 import { Link } from "react-router-dom";
-import { getMovies, deleteMovies, deleteMovie } from "../services/movieService";
+import { getMovies, deleteMovie } from "../services/movieService";
 import { getGenres } from "../services/genreService";
 import { paginate } from "../utils/paginate";
 import _ from "lodash";
@@ -42,7 +42,7 @@ class Movies extends Component {
     try {
       await deleteMovie(movie._id);
     } catch (ex) {
-      if (ex.response && ex.response.status == 404) {
+      if (ex.response && ex.response.status === 404) {
         toast.error("This movie has already been delete");
 
         this.setState({ movies: originalMovies });
