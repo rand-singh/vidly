@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import { toast } from "react-toastify";
 import MoviesTable from "./moviesTable";
 import SearchBox from "./searchBox";
 import Pagination from "./common/pagination";
 import ListGroup from "./common/listgroup";
 import { Link } from "react-router-dom";
-import { getMovies } from "../services/fakeMovieService";
-import { getGenres } from "../services/fakeGenreService";
+import { getMovies, deleteMovies, deleteMovie } from "../services/movieService";
+import { getGenres } from "../services/genreService";
 import { paginate } from "../utils/paginate";
 import _ from "lodash";
 
@@ -23,15 +24,30 @@ class Movies extends Component {
   // this method is called when a instance of this
   // component is rendered in the DOM, generally
   // this is where ajax request will be made
-  componentDidMount() {
-    const genres = [{ _id: "", name: "All Genres" }, ...getGenres()];
-    this.setState({ movies: getMovies(), genres });
+  async componentDidMount() {
+    const { data } = await getGenres();
+    const genres = [{ _id: "", name: "All Genres" }, ...data];
+
+    const { data: movies } = await getMovies();
+    this.setState({ movies, genres });
   }
 
-  handleDelete = movie => {
+  handleDelete = async movie => {
+    const originalMovies = this.state.movies;
+
     // use the filter method to remove a film from the state object
-    const movies = this.state.movies.filter(m => m._id !== movie._id);
+    const movies = originalMovies.filter(m => m._id !== movie._id);
     this.setState({ movies });
+
+    try {
+      await deleteMovie(movie._id);
+    } catch (ex) {
+      if (ex.response && ex.response.status == 404) {
+        toast.error("This movie has already been delete");
+
+        this.setState({ movies: originalMovies });
+      }
+    }
   };
 
   handleLike = movie => {
