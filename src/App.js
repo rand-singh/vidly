@@ -19,7 +19,7 @@ class App extends Component {
 
   // this method is only called once during the lifecycle of our application
   componentDidMount() {
-    const user = auth.getCurrentUser;
+    const user = auth.getCurrentUser();
     this.setState({ user });
   }
 
