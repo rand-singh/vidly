@@ -15,7 +15,7 @@ class Movies extends Component {
     movies: [], // define empty arrays for movies and genres
     genres: [], // to prevent undefined warning
     currentPage: 1,
-    pageSize: 4,
+    pageSize: 2,
     searchQuery: "",
     selectedGenre: null,
     sortColumn: { path: "title", order: "asc" }
