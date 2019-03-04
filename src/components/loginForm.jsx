@@ -31,7 +31,7 @@ class LoginForm extends Form {
       // this database holds key:value pairs
       localStorage.setItem("token", jwt);
 
-      this.props.history.push("/");
+      window.location = "/";
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };

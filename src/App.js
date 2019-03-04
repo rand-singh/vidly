@@ -16,6 +16,7 @@ import "./App.css";
 class App extends Component {
   state = {};
 
+  // this method is only called once during the lifecycle of our application
   componentDidMount() {
     try {
       const jwt = localStorage.getItem("token");
