@@ -22,7 +22,16 @@ class LoginForm extends Form {
   doSubmit = async () => {
     try {
       const { data } = this.state;
-      await login(data.username, data.password);
+
+      // store the Json Web Token on client side
+      const { data: jwt } = await login(data.username, data.password);
+      console.log(jwt);
+
+      // browsers store local storage for each domain
+      // this database holds key:value pairs
+      localStorage.setItem("token", jwt);
+
+      this.props.history.push("/");
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
