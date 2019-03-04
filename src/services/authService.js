@@ -31,6 +31,10 @@ export function getCurrentUser() {
   }
 }
 
+export function getJwt() {
+  return localStorage.getItem(tokenKey);
+}
+
 // you don't always need to export individual functions as we defined default which
 // exports all however we keep them here in case we only need to import certain
 // functions in another module
@@ -38,5 +42,6 @@ export default {
   login,
   loginWithJwt,
   logout,
-  getCurrentUser
+  getCurrentUser,
+  getJwt
 };
