@@ -9,13 +9,14 @@ import { getMovies, deleteMovie } from "../services/movieService";
 import { getGenres } from "../services/genreService";
 import { paginate } from "../utils/paginate";
 import _ from "lodash";
+import { pageSize } from "../config.json";
 
 class Movies extends Component {
   state = {
     movies: [], // define empty arrays for movies and genres
     genres: [], // to prevent undefined warning
     currentPage: 1,
-    pageSize: 3,
+    pageSize: pageSize,
     searchQuery: "",
     selectedGenre: null,
     sortColumn: { path: "title", order: "asc" }
